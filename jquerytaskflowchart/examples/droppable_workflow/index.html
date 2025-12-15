@@ -1,0 +1,362 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+	<link rel="icon" href="data:;base64,=" />
+	
+	<!-- Add jquery lib -->
+	<script language="javascript" type="text/javascript" src="../../lib/jquery/js/jquery-1.8.1.min.js"></script>
+	<script language="javascript" type="text/javascript" src="../../lib/jquery/js/jquery.center.js"></script>
+	
+	<!-- Add Jquery UI JS and CSS files -->
+	<link rel="stylesheet" href="../../lib/jqueryui/css/jquery-ui-1.11.4.css" type="text/css" />
+	<script language="javascript" type="text/javascript" src="../../lib/jqueryui/js/jquery-ui-1.11.4.min.js"></script>
+	
+	<!-- (Optional) Add Jquery Tap-Hold Event JS file -->
+	<!-- script language="javascript" type="text/javascript" src="../../lib/jquerytaphold/taphold.js"></script-->
+
+	<!-- (Optional) Jquery Touch Punch to work on mobile devices with touch -->
+	<!--script type="text/javascript" src="../../lib/jqueryuitouchpunch/jquery.ui.touch-punch.min.js"></script-->
+	
+	<!-- Add Fancy LighBox lib -->
+	<link rel="stylesheet" href="../../lib/jquerymyfancylightbox/css/style.css" type="text/css" charset="utf-8" media="screen, projection" />
+	<script language="javascript" type="text/javascript" src="../../lib/jquerymyfancylightbox/js/jquery.myfancybox.js"></script>
+	
+	<!-- Add LeaderLine main JS and CSS files -->
+	<link rel="stylesheet" href="../../lib/leaderline/leader-line.css" type="text/css" charset="utf-8" />
+	<script language="javascript" type="text/javascript" src="../../lib/leaderline/leader-line.js"></script>
+	<script language="javascript" type="text/javascript" src="../../lib/leaderline/LeaderLineFlowHandler.js"></script>
+
+	<!-- Add TaskFlowChart main JS and CSS files -->
+	<link rel="stylesheet" href="../../css/style.css" type="text/css" charset="utf-8" />
+	<link rel="stylesheet" href="../../css/print.css" type="text/css" charset="utf-8" media="print" />
+	<script type="text/javascript" src="../../js/ExternalLibHandler.js"></script>
+	<script type="text/javascript" src="../../js/TaskFlowChart.js"></script>
+
+	<!-- Add ContextMenu main JS and CSS files -->
+	<link rel="stylesheet" href="../../lib/jquerymycontextmenu/css/style.css" type="text/css" charset="utf-8" />
+	<script language="javascript" type="text/javascript" src="../../lib/jquerymycontextmenu/js/jquery.mycontextmenu.js"></script>
+
+	<!-- Parse_Str -->
+	<script type="text/javascript" src="../../lib/phpjs/functions/strings/parse_str.js"></script>
+
+	<!-- Add DropDowns main JS and CSS files -->
+	<link rel="stylesheet" href="../../lib/jquerysimpledropdowns/css/style.css" type="text/css" charset="utf-8" />
+	<!--[if lte IE 7]>
+		     <link rel="stylesheet" href="lib/jquerysimpledropdowns/css/ie.css" type="text/css" charset="utf-8" />
+	<![endif]-->
+	<script language="javascript" type="text/javascript" src="../../lib/jquerysimpledropdowns/js/jquery.dropdownPlain.js"></script>
+	
+	<script language="javascript" type="text/javascript" src="../../js/menu.js"></script>
+	
+	<style type="text/css">
+		.taskflowchart .workflow_menu .dropdown {margin:0; padding:0;}
+		.taskflowchart .workflow_menu .dropdown li a {font-size:14px !important;}
+		
+		.taskflowchart .tasks_menu:not(.dragging_task_menu) {overflow-y:overlay;}
+		.taskflowchart .tasks_menu .tasks_groups {margin:0;padding:0;}
+		.taskflowchart .tasks_menu .tasks_groups .tasks_group {list-style:none;}
+		.taskflowchart .tasks_menu .tasks_groups .tasks_group .tasks_group_label {padding:5px; background:#333; border-radius:3px;}
+		.taskflowchart .tasks_menu .tasks_groups .tasks_group .tasks_group_label:hover:after {margin-top: -15px; right:20px;}
+		.taskflowchart .tasks_menu .tasks_groups .tasks_group .tasks_group_tasks {padding-top:20px;}
+		.taskflowchart .tasks_menu .tasks_groups .tasks_group .tasks_group_tasks .empty {padding:0 10px; font-size:10px; text-align:center; color:#666;}
+		
+		.taskflowchart .tasks_menu {padding:10px; box-sizing:border-box;}
+		.taskflowchart .tasks_menu .task {background:#00ff00; border-radius:100%;}
+		.taskflowchart .tasks_menu .task.task_droppable {background:#0000ff; border-radius:100%;}
+		
+		.taskflowchart:not(.fixed_properties):not(.fixed_side_properties) > .selected_task_properties,
+		  .taskflowchart:not(.fixed_properties):not(.fixed_side_properties) > .selected_connection_properties {
+			width:500px;
+		}
+		
+		.taskflowchart .tasks_flow .task.task_droppable .info {width:auto !important; margin:5px !important; height:20px; position:absolute; top:0; left:0; right:0; font-size:12px;}
+		.taskflowchart .tasks_flow .task.task_droppable {min-height:100px;}
+		.taskflowchart .tasks_flow .task.task_droppable > .task_droppable {padding:10px; position:absolute; top:25px; left:0; right:0; bottom:0; text-align:center; font-size:80%; color:#aaa; background-color:#ffec0033; border-radius:3px;}
+		.taskflowchart .tasks_flow .task.task_droppable.task_c > .task_droppable {background-color:#f400ff1c;}
+		.taskflowchart .tasks_flow .task.task_droppable.dragActive > .task_droppable {background-color:#ffec0066;}
+		
+		.taskflowchart .tasks_flow .task.task_droppable .leader-line-overlay {z-index:13;}
+	</style>
+	<script>
+		;(function() {
+			//set default configurations
+			taskFlowChartObj.setTaskFlowChartObjOption("is_droppable_connection", true);
+			taskFlowChartObj.setTaskFlowChartObjOption("add_default_start_task", false);
+			taskFlowChartObj.setTaskFlowChartObjOption("resizable_task_properties", true);
+			taskFlowChartObj.setTaskFlowChartObjOption("resizable_connection_properties", true);
+			
+			taskFlowChartObj.ContextMenu.main_tasks_menu_obj_id = "taskflowchart > .tasks_menu";
+			taskFlowChartObj.ContextMenu.main_tasks_menu_hide_obj_id = "taskflowchart > .tasks_menu_hide";
+			taskFlowChartObj.ContextMenu.main_workflow_menu_obj_id = "taskflowchart > .workflow_menu";
+			
+			taskFlowChartObj.TaskFlow.default_connection_z_index = 13;
+			
+			//define the appearance of the task/connection properties 
+			taskFlowChartObj.setTaskFlowChartObjOption("fixed_properties", false); //starts with fixed_properties
+			taskFlowChartObj.setTaskFlowChartObjOption("fixed_side_properties", true); //starts with fixed_side_properties
+			
+			//set tasks flow canvas configurations
+			//taskFlowChartObj.TaskFlow.default_connection_connector = "Straight";
+			//taskFlowChartObj.TaskFlow.default_connection_hover_color = null;
+			taskFlowChartObj.TaskFlow.main_tasks_flow_obj_id = "taskflowchart > .tasks_flow";
+			taskFlowChartObj.TaskFlow.main_tasks_properties_obj_id = "taskflowchart > .tasks_properties";
+			taskFlowChartObj.TaskFlow.main_connections_properties_obj_id = "taskflowchart > .connections_properties";
+			
+			taskFlowChartObj.TaskFile.get_tasks_file_url = "server/get_tasks.php";
+			taskFlowChartObj.TaskFile.set_tasks_file_url = "server/set_tasks.php";
+			
+			taskFlowChartObj.Property.tasks_settings = {
+				"tasktypea":{
+					"callback":{
+						"on_success_task_cloning":function(task_id) {
+							var j_task = taskFlowChartObj.TaskFlow.getTaskById(task_id);
+							var droppable = j_task.parent().closest(".task_droppable");
+							
+							if (droppable.length == 0) {
+								taskFlowChartObj.StatusMessage.showError("Task A must be dropped inside of Task C");
+								taskFlowChartObj.TaskFlow.deleteTask(task_id, {confirm: false});
+							}
+						},
+						"on_task_drag_stop_end":function(j_task) {
+							var droppable = j_task.parent().closest(".task_droppable");
+							
+							if (droppable.length == 0) {
+								taskFlowChartObj.StatusMessage.showError("Task A must be dropped inside of Task C");
+								taskFlowChartObj.TaskFlow.deleteTask( j_task.attr("id"), {confirm: false} );
+							}
+						},
+					},
+					"is_resizable_task":true,
+				},
+				"tasktypeb":{
+					"is_resizable_task":true,
+				},
+				"tasktypec":{
+					"task_menu":{
+						"show_properties_menu":false,
+						"show_start_task_menu":false
+					},
+					"connection_menu":{
+						"show_context_menu":false
+					},
+					"callback":{
+						"on_success_task_creation":function(task_id) {
+							var j_task = taskFlowChartObj.TaskFlow.getTaskById(task_id);
+							j_task.addClass("task_droppable");
+							
+							var droppable = $('<div class="' + taskFlowChartObj.TaskFlow.task_droppable_class_name + '">Drop here<br>tasks A</div>');
+							j_task.append(droppable);
+							
+							taskFlowChartObj.ContextMenu.prepareTaskDroppables(j_task, {accept: ".task_a, .task_droppable"});
+						},
+					},
+					"center_inner_elements":true,
+					"is_resizable_task":true,
+					"allow_inner_tasks_outside_connections":true,
+				},
+				"tasktyped":{
+					"task_menu":{
+						"show_properties_menu":false,
+						"show_set_label_menu":false,
+						"show_start_task_menu":false
+					},
+					"connection_menu":{
+						"show_context_menu":false
+					},
+					"callback":{
+						"on_success_task_creation":function(task_id) {
+							var j_task = taskFlowChartObj.TaskFlow.getTaskById(task_id);
+							j_task.addClass("task_droppable");
+							
+							var droppable = $('<div class="' + taskFlowChartObj.TaskFlow.task_droppable_class_name + '">Drop here any task<br/><br/>Only internal connections are allowed</div>');
+							j_task.append(droppable);
+							
+							taskFlowChartObj.ContextMenu.prepareTaskDroppables(j_task);
+						},
+					},
+					"is_resizable_task":true,
+					"allow_inner_tasks_outside_connections":false,
+				},
+			};
+			
+			taskFlowChartObj.TaskFlow.default_connection_line_width = 2;
+			taskFlowChartObj.TaskFlow.default_connection_from_target = true;
+			
+			//init tasks flow chart
+			taskFlowChartObj.init();
+		})();
+	</script>
+</head>
+<body>
+	<!-- Task Flow Chart -->
+	<div id="taskflowchart" class="taskflowchart resizable_task_properties resizable_connection_properties">
+	
+		<!-- WORKFLOW MENU -->
+		<div id="workflow_menu" class="workflow_menu">
+			<!-- 
+				HERE IS WHERE YOU WRITE THE MENU TO INTERACT WITH THE WORKFLOW, IF APPLY. (OPTIONAL)
+			-->
+			<ul class="dropdown">
+				<li class="" title="File">
+					<a>File</a>
+					<ul>
+						<li class="" title="Save">
+							<a onClick="taskFlowChartObj.TaskFile.save();return false;">Save</a>
+						</li>
+						<li class="" title="Empty Diagram">
+							<a onClick="emptyDiagam();return false;">Empty Diagram</a>
+						</li>
+						<li class="" title="Flip Diagram">
+							<a onClick="taskFlowChartObj.ContextMenu.flipPanelsSide();return false;">Flip Diagram</a>
+						</li>
+					</ul>
+				</li>
+				<li class="" title="WorkFlow">
+					<a>WorkFlow</a>
+					<ul>
+						<li class="" title="Zoom In">
+							<a onClick="zoomInDiagram(this);return false;">Zoom In</a>
+						</li>
+						<li class="" title="Zoom Out">
+							<a onClick="zoomOutDiagram(this);return false;">Zoom Out</a>
+						</li>
+						<li class="zoom" title="Zoom">
+							<span>100%</span> 
+							<input type="range" min="0.5" max="1.5" step=".02" value="1" onInput="zoomDiagram(this);return false;" />
+						</li>
+						<li class="" title="Zoom Reset">
+							<a onClick="zoomResetDiagram(this);return false;">Zoom Reset</a>
+						</li>
+					</ul>
+				</li>
+				<li class="" title="Other Examples">
+					<a>Other Examples</a>
+					<ul>
+						<li class="" title="Simple Workflow">
+							<a href="../../">Simple Workflow</a>
+						</li>
+						<li class="" title="Logic Workflow">
+							<a href="../logic_workflow">Logic Workflow</a>
+						</li>
+						<li class="" title="DB Tables Diagram">
+							<a href="../tables_diagram">DB Tables Diagram</a>
+						</li>
+						<li class="" title="Multiple Workflows">
+							<a href="../multiple_workflows">Multiple Workflows</a>
+						</li>
+					</ul>
+				</li>
+			</ul>
+		</div>
+		
+		<!-- TASKS SIDE BAR -->
+		<div class="tasks_menu scroll">
+			<!-- 
+				HERE IS WHERE YOU WRITE AVAILABLE TASKS.
+				EACH TASK SHOULD HAVE THE CLASSES "task", "task_menu", "task_" FOLLOWED BY THE TASK TYPE ID, AND THE CLASS WITH THE TASK TYPE ID. 
+				ADDITIONALLY MUST HAVE THE ATTRIBUTES: TYPE AND TAG. 
+				THE INNER HTML CAN BE WHATEVER YOU WANT.
+				
+				IF YOU WISH YOU CAN ALSO ORGANIZE TASKS IN GROUPS, IF APPLY. (OPTIONAL)
+				IF GROUPS EXISTS, THEN THEY MUST BE INSIDE OF A NODE WITH A CLASS "tasks_groups".
+				EACH GROUP MUST HAVE THE CLASS "tasks_group".
+				INSIDE OF EACH GROUP THE TASKS SHOULD BE INSIDE OF THE CHILDREN WITH THE CLASS "tasks_group_tasks".
+			-->
+			
+			<ul class="tasks_groups">
+				<li class="tasks_group tasks_group_others">
+					<div class="tasks_group_label">Some Tasks</div>
+					<div class="tasks_group_tasks">
+						<div class="task task_menu task_tasktypea task_a" type="tasktypea" tag="a" title="A"><span>Task A</span></div>
+						<div class="task task_menu task_tasktypeb task_b" type="tasktypeb" tag="b" title="B">Task B</div>
+					</div>
+					<div style="clear:left; float:none;"></div>
+				</li>
+				<li class="tasks_group tasks_group_droppables">
+					<div class="tasks_group_label">Droppable Tasks</div>
+					<div class="tasks_group_tasks">
+						<div class="task task_menu task_tasktypec task_c task_droppable" type="tasktypec" tag="c" title="C"><span>Drop me</span></div>
+						<div class="task task_menu task_tasktyped task_d task_droppable" type="tasktyped" tag="d" title="D"><span>Drop me</span></div>
+					</div>
+					<div style="clear:left; float:none;"></div>
+				</li>
+				<li class="tasks_group tasks_group_others">
+					<div class="tasks_group_label">Others</div>
+					<div class="tasks_group_tasks">
+						<div class="empty">There are no tasks available in this group</div>
+					</div>
+					<div style="clear:left; float:none;"></div>
+				</li>
+			</ul>
+		</div>
+		
+		<!-- TASKS MENU HIDE -->
+		<div class="tasks_menu_hide">
+			<div class="button" onclick="taskFlowChartObj.ContextMenu.toggleTasksMenuPanel(this)"></div>
+		</div>
+		
+		<!-- TASKS FLOW - CANVAS -->
+		<div class="tasks_flow scroll"></div>
+		
+		<!-- TASKS PROPERTIES -->
+		<div class="tasks_properties" style="display:none">
+			<!-- 
+				HERE IS WHERE YOU WRITE THE HTML FOR THE PROPERTIES OF EACH TASK. 
+				THE TASK PROPERTIES NODE MUST HAVE THE CLASSES "task_properties" AND "task_properties_" FOLLOWED BY THE TASK TYPE ID. 
+				THEN, INSIDE OF THIS NODE, YOU CAN WRITE WHATEVER YOU WANT.
+			-->
+			
+			<!-- TASK A PROPERTIES -->
+			<div class="task_properties task_properties_tasktypea">
+				<!-- define the html shown in the task properties. Fields to be save must have the class task_property_field. -->
+				Some html here for task A
+				<div>
+					<input class="task_property_field" name="some_prop" placeHolder="write something here"/>
+				</div>
+				This is only an example without any styling...
+				
+				<!-- define the exit points for your task -->
+				<div class="task_property_exit" exit_id="true" exit_color="#51D87A" exit_label="True"></div>
+				<div class="task_property_exit" exit_id="false" exit_color="#FF4D4D" exit_label="False"></div>
+			</div>
+			
+			<!-- TASK B PROPERTIES -->
+			<div class="task_properties task_properties_tasktypeb">
+				<!-- define the html shown in the task properties. Fields to be save must have the class task_property_field. -->
+				Some html here for task B
+				<div>
+					<textarea class="task_property_field" name="some_other_prop" placeHolder="write something here"></textarea>
+				</div>
+				This is only an example without any styling...
+				
+				<!-- define the exit points for your task -->
+				<div class="task_property_exit" exit_id="default_exit" exit_color="#000" exit_label="Default"></div>
+			</div>
+		</div>
+		
+		<!-- CONNECTION PROPERTIES -->
+		<div class="connections_properties" style="display:none">
+			<!-- 
+				HERE IS WHERE YOU WRITE THE HTML FOR THE PROPERTIES OF EACH CONNECTION. 
+				THE CONNECTION PROPERTIES NODE MUST HAVE THE CLASSES "connection_properties" AND "connection_properties_" FOLLOWED BY THE TASK TYPE ID. 
+				THEN, INSIDE OF THIS NODE, YOU CAN WRITE WHATEVER YOU WANT.
+			-->
+			
+			<!-- CONNECTION A PROPERTIES -->
+			<div class="connection_properties connection_properties_tasktypea">
+				<!-- define the html shown in the connection properties. Fields to be save must have the class connection_property_field. -->
+				Some html here for connection A
+			</div>
+			
+			<!-- CONNECTION B PROPERTIES -->
+			<div class="connection_properties connection_properties_tasktypeb">
+				<!-- define the html shown in the connection properties. Fields to be save must have the class connection_property_field. -->
+				Some html here for connection B
+			</div>
+		</div>
+	</div>
+</body>
+</html>
+
+

@@ -1,0 +1,79 @@
+/*
+ * Copyright (c) 2025 Bloxtor (http://bloxtor.com) and Joao Pinto (http://jplpinto.com)
+ * 
+ * Multi-licensed: BSD 3-Clause | Apache 2.0 | GNU LGPL v3 | HLNC License (http://bloxtor.com/LICENSE_HLNC.md)
+ * Choose one license that best fits your needs.
+ *
+ * Original JQuery Task flow Chart Repo: https://github.com/a19836/jquerytaskflowchart/
+ * Original Bloxtor Repo: https://github.com/a19836/bloxtor
+ *
+ * YOU ARE NOT AUTHORIZED TO MODIFY OR REMOVE ANY PART OF THIS NOTICE!
+ */
+
+/* GENERAL */
+.taskflowchart {
+	height:auto !important;
+}
+.taskflowchart .workflow_menu {
+	display:none !important;
+}
+.taskflowchart .tasks_menu {
+	display:none !important;
+}
+.taskflowchart .tasks_menu_hide {
+	display:none !important;
+}
+.taskflowchart .tasks_flow {
+	top:0px !important;
+	left:0px !important;
+	width:100% !important;
+	height:100% !important;
+	overflow:visible !important;
+	overflow-y:visible !important;
+	overflow-x:visible !important;
+	
+	border:0;
+}
+
+.taskflowchart .tasks_flow .task,
+   .taskflowchart .task.is_start_task .start_task_overlay {
+	box-shadow:none !important;
+	-o-box-shadow:none !important;
+	-webkit-box-shadow:none !important;
+	-moz-box-shadow:none !important;
+	
+	/* For IE */
+	-ms-filter: "progid:DXImageTransform.Microsoft.Shadow(enabled=false)" !important;
+	filter: progid:DXImageTransform.Microsoft.Shadow(enabled=false) !important;
+}
+
+.taskflowchart .tasks_flow .task .info *,
+   .taskflowchart .tasks_flow .task .eps * {
+	opacity:1 !important;
+	-ms-filter: alpha(opacity=100) !important;
+	filter: alpha(opacity=100) !important;
+}
+
+/* MENUS */
+.task_context_menu {
+	display:none !important;
+}
+.connection_context_menu {
+	display:none !important;
+}
+
+/* PROPERTIES */
+.selected_task_properties {
+	display:none !important;
+}
+.selected_connection_properties {
+	display:none !important;
+}
+.tasks_properties {
+	display:none !important;
+}
+
+.scroll {
+	overflow-y:visible !important;
+	overflow-x:visible !important;
+}

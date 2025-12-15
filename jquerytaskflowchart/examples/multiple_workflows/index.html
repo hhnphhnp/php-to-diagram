@@ -1,0 +1,298 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+	<link rel="icon" href="data:;base64,=" />
+	
+	<!-- Add jquery lib -->
+	<script language="javascript" type="text/javascript" src="../../lib/jquery/js/jquery-1.8.1.min.js"></script>
+	<script language="javascript" type="text/javascript" src="../../lib/jquery/js/jquery.center.js"></script>
+	
+	<!-- Add Jquery UI JS and CSS files -->
+	<link rel="stylesheet" href="../../lib/jqueryui/css/jquery-ui-1.11.4.css" type="text/css" />
+	<script language="javascript" type="text/javascript" src="../../lib/jqueryui/js/jquery-ui-1.11.4.min.js"></script>
+	
+	<!-- (Optional) Add Jquery Tap-Hold Event JS file -->
+	<!-- script language="javascript" type="text/javascript" src="../../lib/jquerytaphold/taphold.js"></script-->
+
+	<!-- (Optional) Jquery Touch Punch to work on mobile devices with touch -->
+	<!--script type="text/javascript" src="../../lib/jqueryuitouchpunch/jquery.ui.touch-punch.min.js"></script-->
+	
+	<!-- Add Fancy LighBox lib -->
+	<link rel="stylesheet" href="../../lib/jquerymyfancylightbox/css/style.css" type="text/css" charset="utf-8" media="screen, projection" />
+	<script language="javascript" type="text/javascript" src="../../lib/jquerymyfancylightbox/js/jquery.myfancybox.js"></script>
+	
+	<!-- Add LeaderLine main JS and CSS files -->
+	<link rel="stylesheet" href="../../lib/leaderline/leader-line.css" type="text/css" charset="utf-8" />
+	<script language="javascript" type="text/javascript" src="../../lib/leaderline/leader-line.js"></script>
+	<script language="javascript" type="text/javascript" src="../../lib/leaderline/LeaderLineFlowHandler.js"></script>
+
+	<!-- Add TaskFlowChart main JS and CSS files -->
+	<link rel="stylesheet" href="../../css/style.css" type="text/css" charset="utf-8" />
+	<link rel="stylesheet" href="../../css/print.css" type="text/css" charset="utf-8" media="print" />
+	<script type="text/javascript" src="../../js/ExternalLibHandler.js"></script>
+	<script type="text/javascript" src="../../js/TaskFlowChart.js"></script>
+
+	<!-- Add ContextMenu main JS and CSS files -->
+	<link rel="stylesheet" href="../../lib/jquerymycontextmenu/css/style.css" type="text/css" charset="utf-8" />
+	<script language="javascript" type="text/javascript" src="../../lib/jquerymycontextmenu/js/jquery.mycontextmenu.js"></script>
+
+	<!-- Parse_Str -->
+	<script type="text/javascript" src="../../lib/phpjs/functions/strings/parse_str.js"></script>
+
+	<!-- Add DropDowns main JS and CSS files -->
+	<link rel="stylesheet" href="../../lib/jquerysimpledropdowns/css/style.css" type="text/css" charset="utf-8" />
+	<!--[if lte IE 7]>
+		     <link rel="stylesheet" href="lib/jquerysimpledropdowns/css/ie.css" type="text/css" charset="utf-8" />
+	<![endif]-->
+	<script language="javascript" type="text/javascript" src="../../lib/jquerysimpledropdowns/js/jquery.dropdownPlain.js"></script>
+	
+	<script language="javascript" type="text/javascript" src="../../js/menu.js"></script>
+	
+	<style type="text/css">
+		.taskflowchart .workflow_menu .dropdown {margin:0; padding:0;}
+		.taskflowchart .workflow_menu .dropdown li a {font-size:14px !important;}
+		
+		.taskflowchart .tasks_menu:not(.dragging_task_menu) {overflow-y:overlay;}
+		.taskflowchart .tasks_menu {padding:10px; box-sizing:border-box;}
+		.taskflowchart .tasks_menu .task {background:#00ff00; border-radius:100%;}
+		
+		.taskflowchart .tasks_flow .task {height:50px !important;}
+		
+		.taskflowchart:not(.fixed_properties):not(.fixed_side_properties) > .selected_task_properties,
+		  .taskflowchart:not(.fixed_properties):not(.fixed_side_properties) > .selected_connection_properties {
+			width:500px;
+		}
+		
+		.taskflowchart {
+			margin:50px auto;
+			position: relative;
+			width: 800px;
+			height: 300px;
+			border: 1px solid #ccc;
+		}
+		
+		#taskflowchart2 > .tasks_menu, #taskflowchart2 > .tasks_menu_hide, #taskflowchart2 > .tasks_flow {top:0 !important;}
+		#taskflowchart2 > .workflow_menu {display:none;}
+		#taskflowchart2 .tasks_menu .task {background:#0000ff; border-radius:100%;}
+		#taskflowchart2 > .save_chart_2 {margin-top:-20px; display:inline-block;}
+		
+	</style>
+	<script>
+		var taskFlowChartObj2 = null;
+		
+		;(function() {
+			//set default configurations
+			taskFlowChartObj.TaskFile.get_tasks_file_url = "server/get_tasks.php?chart=1";
+			taskFlowChartObj.TaskFile.set_tasks_file_url = "server/set_tasks.php?chart=1";
+			
+			taskFlowChartObj.ContextMenu.main_tasks_menu_obj_id = "taskflowchart1 > .tasks_menu";
+			taskFlowChartObj.ContextMenu.main_tasks_menu_hide_obj_id = "taskflowchart1 > .tasks_menu_hide";
+			taskFlowChartObj.ContextMenu.main_workflow_menu_obj_id = "taskflowchart1 > .workflow_menu";
+			
+			taskFlowChartObj.TaskFlow.main_tasks_flow_obj_id = "taskflowchart1 > .tasks_flow";
+			taskFlowChartObj.TaskFlow.main_tasks_properties_obj_id = "taskflowchart1 > .tasks_properties";
+			taskFlowChartObj.TaskFlow.main_connections_properties_obj_id = "taskflowchart1 > .connections_properties";
+			
+			//init tasks flow chart
+			taskFlowChartObj.init();
+			
+			//prepare taskFlowChartObj2
+			taskFlowChartObj2 = new TaskFlowChart("taskFlowChartObj2");
+			
+			//set default configurations
+			taskFlowChartObj2.TaskFile.get_tasks_file_url = "server/get_tasks.php?chart=2";
+			taskFlowChartObj2.TaskFile.set_tasks_file_url = "server/set_tasks.php?chart=2";
+			
+			taskFlowChartObj2.ContextMenu.main_tasks_menu_obj_id = "taskflowchart2 > .tasks_menu";
+			taskFlowChartObj2.ContextMenu.main_tasks_menu_hide_obj_id = "taskflowchart2 > .tasks_menu_hide";
+			taskFlowChartObj2.ContextMenu.main_workflow_menu_obj_id = "taskflowchart2 > .workflow_menu";
+			
+			taskFlowChartObj2.TaskFlow.main_tasks_flow_obj_id = "taskflowchart2 > .tasks_flow";
+			taskFlowChartObj2.TaskFlow.main_tasks_properties_obj_id = "taskflowchart2 > .tasks_properties";
+			taskFlowChartObj2.TaskFlow.main_connections_properties_obj_id = "taskflowchart2 > .connections_properties";
+			
+			taskFlowChartObj2.Property.tasks_settings = {
+				"tasktypea":{
+					"task_menu":{
+						"show_properties_menu":false,
+						"show_start_task_menu":false
+					},
+					"connection_menu":{
+						"show_context_menu":false
+					},
+				},
+				"tasktypeB":{
+					"task_menu":{
+						"show_start_task_menu":false
+					},
+					"connection_menu":{
+						"show_context_menu":false
+					},
+				},
+			};
+			
+			//init tasks flow chart
+			taskFlowChartObj2.init();
+		})();
+	</script>
+</head>
+<body>
+	<!-- Task Flow Chart 1 -->
+	<div id="taskflowchart1" class="taskflowchart reverse resizable_task_properties resizable_connection_properties">
+	
+		<!-- WORKFLOW MENU -->
+		<div id="workflow_menu" class="workflow_menu">
+			<!-- 
+				HERE IS WHERE YOU WRITE THE MENU TO INTERACT WITH THE WORKFLOW, IF APPLY. (OPTIONAL)
+			-->
+			<ul class="dropdown">
+				<li class="" title="File">
+					<a>File</a>
+					<ul>
+						<li class="" title="Save">
+							<a onClick="taskFlowChartObj.TaskFile.save();return false;">Save</a>
+						</li>
+						<li class="" title="Empty Diagram">
+							<a onClick="emptyDiagam();return false;">Empty Diagram</a>
+						</li>
+						<li class="" title="Flip Diagram">
+							<a onClick="taskFlowChartObj.ContextMenu.flipPanelsSide();return false;">Flip Diagram</a>
+						</li>
+					</ul>
+				</li>
+				<li class="" title="WorkFlow">
+					<a>WorkFlow</a>
+					<ul>
+						<li class="" title="Zoom In">
+							<a onClick="zoomInDiagram(this);return false;">Zoom In</a>
+						</li>
+						<li class="" title="Zoom Out">
+							<a onClick="zoomOutDiagram(this);return false;">Zoom Out</a>
+						</li>
+						<li class="zoom" title="Zoom">
+							<span>100%</span> 
+							<input type="range" min="0.5" max="1.5" step=".02" value="1" onInput="zoomDiagram(this);return false;" />
+						</li>
+						<li class="" title="Zoom Reset">
+							<a onClick="zoomResetDiagram(this);return false;">Zoom Reset</a>
+						</li>
+					</ul>
+				</li>
+				<li class="" title="Other Examples">
+					<a>Other Examples</a>
+					<ul>
+						<li class="" title="Simple Workflow">
+							<a href="../../">Simple Workflow</a>
+						</li>
+						<li class="" title="Logic Workflow">
+							<a href="../logic_workflow">Logic Workflow</a>
+						</li>
+						<li class="" title="Droppable Workflow">
+							<a href="../droppable_workflow">Droppable Workflow</a>
+						</li>
+						<li class="" title="DB Tables Diagram">
+							<a href="../tables_diagram">DB Tables Diagram</a>
+						</li>
+					</ul>
+				</li>
+			</ul>
+		</div>
+		
+		<!-- TASKS SIDE BAR -->
+		<div class="tasks_menu scroll">
+			<div class="task task_menu task_tasktypea task_a" type="tasktypea" tag="a" title="A"><span>Task A</span></div>
+			<div class="task task_menu task_tasktypeb task_b" type="tasktypeb" tag="b" title="B">Task B</div>
+		</div>
+		
+		<!-- TASKS MENU HIDE -->
+		<div class="tasks_menu_hide">
+			<div class="button" onclick="taskFlowChartObj.ContextMenu.toggleTasksMenuPanel(this)"></div>
+		</div>
+		
+		<!-- TASKS FLOW - CANVAS -->
+		<div class="tasks_flow scroll"></div>
+		
+		<!-- TASKS PROPERTIES -->
+		<div class="tasks_properties" style="display:none">
+			<!-- TASK A PROPERTIES -->
+			<div class="task_properties task_properties_tasktypea">
+				<!-- define the html shown in the task properties. Fields to be save must have the class task_property_field. -->
+				Some html here for task A
+				<div>
+					<input class="task_property_field" name="some_prop" placeHolder="write something here"/>
+				</div>
+				This is only an example without any styling...
+				
+				<!-- define the exit points for your task -->
+				<div class="task_property_exit" exit_id="true" exit_color="#51D87A" exit_label="True"></div>
+				<div class="task_property_exit" exit_id="false" exit_color="#FF4D4D" exit_label="False"></div>
+			</div>
+			
+			<!-- TASK B PROPERTIES -->
+			<div class="task_properties task_properties_tasktypeb">
+				<!-- define the html shown in the task properties. Fields to be save must have the class task_property_field. -->
+				Some html here for task B
+				<div>
+					<textarea class="task_property_field" name="some_other_prop" placeHolder="write something here"></textarea>
+				</div>
+				This is only an example without any styling...
+				
+				<!-- define the exit points for your task -->
+				<div class="task_property_exit" exit_id="default_exit" exit_color="#000" exit_label="Default"></div>
+			</div>
+		</div>
+		
+		<!-- CONNECTION PROPERTIES -->
+		<div class="connections_properties" style="display:none">
+			<!-- CONNECTION A PROPERTIES -->
+			<div class="connection_properties connection_properties_tasktypea">
+				<!-- define the html shown in the connection properties. Fields to be save must have the class connection_property_field. -->
+				Some html here for connection A
+			</div>
+			
+			<!-- CONNECTION B PROPERTIES -->
+			<div class="connection_properties connection_properties_tasktypeb">
+				<!-- define the html shown in the connection properties. Fields to be save must have the class connection_property_field. -->
+				Some html here for connection B
+			</div>
+		</div>
+	</div>
+	
+	<!-- Task Flow Chart 2 -->
+	<div id="taskflowchart2" class="taskflowchart resizable_task_properties resizable_connection_properties">
+		<a class="save_chart_2" href="#" onClick="taskFlowChartObj2.TaskFile.save();return false;">Save Chart 2</a>
+						
+		<div id="workflow_menu" class="workflow_menu"></div>
+		
+		<!-- TASKS SIDE BAR -->
+		<div class="tasks_menu scroll">
+			<div class="task task_menu task_tasktypea task_a" type="tasktypea" tag="a" title="A"><span>Task A</span></div>
+			<div class="task task_menu task_tasktypeb task_b" type="tasktypeb" tag="b" title="B">Task B</div>
+		</div>
+		
+		<!-- TASKS MENU HIDE -->
+		<div class="tasks_menu_hide">
+			<div class="button" onclick="taskFlowChartObj2.ContextMenu.toggleTasksMenuPanel(this)"></div>
+		</div>
+		
+		<!-- TASKS FLOW - CANVAS -->
+		<div class="tasks_flow scroll"></div>
+		
+		<!-- TASKS PROPERTIES -->
+		<div class="tasks_properties" style="display:none">
+			
+			<!-- TASK B PROPERTIES -->
+			<div class="task_properties task_properties_tasktypeb">
+				<!-- define the html shown in the task properties. Fields to be save must have the class task_property_field. -->
+				Some html here for task B
+				
+				<!-- define the exit points for your task -->
+				<div class="task_property_exit" exit_id="default_exit" exit_color="#000" exit_label="Default"></div>
+			</div>
+		</div>
+	</div>
+</body>
+</html>
+
+

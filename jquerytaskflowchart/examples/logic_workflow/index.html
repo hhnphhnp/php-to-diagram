@@ -1,0 +1,316 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+	<link rel="icon" href="data:;base64,=" />
+	
+	<!-- Add Fontawsome Icons CSS -->
+	<link rel="stylesheet" href="lib/fontawesome/css/all.min.css">
+
+	<!-- Colors -->
+	<script language="javascript" type="text/javascript" src="js/color.js"></script>
+	
+	<!-- Add jquery lib -->
+	<script language="javascript" type="text/javascript" src="../../lib/jquery/js/jquery-1.8.1.min.js"></script>
+	<script language="javascript" type="text/javascript" src="../../lib/jquery/js/jquery.center.js"></script>
+	
+	<!-- Add Jquery UI JS and CSS files -->
+	<link rel="stylesheet" href="../../lib/jqueryui/css/jquery-ui-1.11.4.css" type="text/css" />
+	<script language="javascript" type="text/javascript" src="../../lib/jqueryui/js/jquery-ui-1.11.4.min.js"></script>
+	
+	<!-- Add Jquery Tap-Hold Event JS file -->
+	<script language="javascript" type="text/javascript" src="../../lib/jquerytaphold/taphold.js"></script>
+
+	<!-- Jquery Touch Punch to work on mobile devices with touch -->
+	<script type="text/javascript" src="../../lib/jqueryuitouchpunch/jquery.ui.touch-punch.min.js"></script>
+	
+	<!-- Add Fancy LighBox lib -->
+	<link rel="stylesheet" href="../../lib/jquerymyfancylightbox/css/style.css" type="text/css" charset="utf-8" media="screen, projection" />
+	<script language="javascript" type="text/javascript" src="../../lib/jquerymyfancylightbox/js/jquery.myfancybox.js"></script>
+
+	<!-- Add LeaderLine main JS and CSS files -->
+	<link rel="stylesheet" href="../../lib/leaderline/leader-line.css" type="text/css" charset="utf-8" />
+	<script language="javascript" type="text/javascript" src="../../lib/leaderline/leader-line.js"></script>
+	<script language="javascript" type="text/javascript" src="../../lib/leaderline/LeaderLineFlowHandler.js"></script>
+
+	<!-- Add TaskFlowChart main JS and CSS files -->
+	<link rel="stylesheet" href="../../css/style.css" type="text/css" charset="utf-8" />
+	<link rel="stylesheet" href="../../css/print.css" type="text/css" charset="utf-8" media="print" />
+	<script type="text/javascript" src="../../js/ExternalLibHandler.js"></script>
+	<script type="text/javascript" src="../../js/TaskFlowChart.js"></script>
+
+	<!-- Add ContextMenu main JS and CSS files -->
+	<link rel="stylesheet" href="../../lib/jquerymycontextmenu/css/style.css" type="text/css" charset="utf-8" />
+	<script language="javascript" type="text/javascript" src="../../lib/jquerymycontextmenu/js/jquery.mycontextmenu.js"></script>
+
+	<!-- Parse_Str -->
+	<script type="text/javascript" src="../../lib/phpjs/functions/strings/parse_str.js"></script>
+
+	<!-- Add DropDowns main JS and CSS files -->
+	<link rel="stylesheet" href="../../lib/jquerysimpledropdowns/css/style.css" type="text/css" charset="utf-8" />
+	<!--[if lte IE 7]>
+		     <link rel="stylesheet" href="../../lib/jquerysimpledropdowns/css/ie.css" type="text/css" charset="utf-8" />
+	<![endif]-->
+	<script language="javascript" type="text/javascript" src="../../lib/jquerysimpledropdowns/js/jquery.dropdownPlain.js"></script>
+
+	<!-- Add TASKS JS and CSS files -->
+	<link rel="stylesheet" type="text/css" href="css/test_tasks.css" />
+	<script language="javascript" type="text/javascript" src="js/test_tasks.js"></script>
+	
+	<script language="javascript" type="text/javascript" src="../../js/menu.js"></script>
+	
+	<script>
+		;(function() {
+			taskFlowChartObj.setTaskFlowChartObjOption("is_droppable_connection", true);
+			taskFlowChartObj.setTaskFlowChartObjOption("add_default_start_task", true);
+			taskFlowChartObj.setTaskFlowChartObjOption("resizable_task_properties", true);
+			taskFlowChartObj.setTaskFlowChartObjOption("resizable_connection_properties", true);
+			
+			taskFlowChartObj.TaskFile.get_tasks_file_url = "server/get_tasks.php";
+			taskFlowChartObj.TaskFile.set_tasks_file_url = "server/set_tasks.php";
+			taskFlowChartObj.TaskFlow.default_connection_connector = "Straight";
+			taskFlowChartObj.TaskFlow.default_connection_hover_color = null;
+			taskFlowChartObj.TaskFlow.main_tasks_flow_obj_id = "taskflowchart > .tasks_flow";
+			taskFlowChartObj.TaskFlow.main_tasks_properties_obj_id = "taskflowchart > .tasks_properties";
+			taskFlowChartObj.TaskFlow.main_connections_properties_obj_id = "taskflowchart > .connections_properties";
+			taskFlowChartObj.ContextMenu.main_tasks_menu_obj_id = "taskflowchart > .tasks_menu";
+			taskFlowChartObj.ContextMenu.main_tasks_menu_hide_obj_id = "taskflowchart > .tasks_menu_hide";
+			taskFlowChartObj.ContextMenu.main_workflow_menu_obj_id = "taskflowchart > .workflow_menu";
+			
+			taskFlowChartObj.Property.tasks_settings = {
+				"d45ddc36":{
+					"connection_menu":{
+						"show_properties_menu":0,
+						"show_overlay_types_menu":0
+					},
+					"callback":{
+						"on_load_task_properties":IfTaskPropertyObj.onLoadTaskProperties,
+						"on_submit_task_properties":IfTaskPropertyObj.onSubmitTaskProperties,
+						"on_complete_task_properties":IfTaskPropertyObj.onCompleteTaskProperties,
+						"on_cancel_task_properties":IfTaskPropertyObj.onCancelTaskProperties,
+						"on_complete_task_label":IfTaskPropertyObj.onCompleteLabel,
+						"on_success_task_cloning":ProgrammingTaskUtil.onTaskCloning,
+						"on_success_task_creation":IfTaskPropertyObj.onTaskCreation,
+						"on_check_task_deletion":ProgrammingTaskUtil.onBeforeTaskDeletion,
+						"on_success_task_deletion":ProgrammingTaskUtil.onAfterTaskDeletion,
+						"on_success_task_between_connection":ProgrammingTaskUtil.onSuccessTaskBetweenConnection,
+						"on_success_connection_drag":onlyAllowOneConnectionPerExitAndNotToItSelf,
+						"on_success_connection_drop":ProgrammingTaskUtil.onConnectionDrop,
+						"on_show_task_menu":ProgrammingTaskUtil.addCodeMenuOnShowTaskMenu,
+						"on_click_task":"showTaskPropertiesIfExists"
+					},
+					"center_inner_elements":0
+				},
+				"199eb725":{
+					"connection_menu":{
+						"show_properties_menu":0,
+						"show_overlay_types_menu":0
+					},
+					"callback":{
+						"on_load_task_properties":SwitchTaskPropertyObj.onLoadTaskProperties,
+						"on_submit_task_properties":SwitchTaskPropertyObj.onSubmitTaskProperties,
+						"on_complete_task_properties":SwitchTaskPropertyObj.onCompleteTaskProperties,
+						"on_cancel_task_properties":SwitchTaskPropertyObj.onCancelTaskProperties,
+						"on_complete_task_label":SwitchTaskPropertyObj.onCompleteLabel,
+						"on_success_task_cloning":ProgrammingTaskUtil.onTaskCloning,
+						"on_success_task_creation":SwitchTaskPropertyObj.onTaskCreation,
+						"on_check_task_deletion":ProgrammingTaskUtil.onBeforeTaskDeletion,
+						"on_success_task_deletion":ProgrammingTaskUtil.onAfterTaskDeletion,
+						"on_success_task_between_connection":ProgrammingTaskUtil.onSuccessTaskBetweenConnection,
+						"on_success_connection_drag":ProgrammingTaskUtil.onConnectionDrag,
+						"on_success_connection_drop":ProgrammingTaskUtil.onConnectionDrop,
+						"on_show_task_menu":ProgrammingTaskUtil.addCodeMenuOnShowTaskMenu,
+						"on_click_task":"showTaskPropertiesIfExists"
+					},
+					"center_inner_elements":0
+				}
+			};
+			taskFlowChartObj.Container.tasks_containers = {
+				"d45ddc36":[
+					"content_with_only_if"
+				],
+				"199eb725":[
+					"content_with_only_switch"
+				]
+			};
+			
+			taskFlowChartObj.TaskFile.save_options = {
+				success: function(data, textStatus, jqXHR) {
+					console.log("add some code after saving");
+				}
+			};
+			
+			taskFlowChartObj.init();
+		})();
+	</script>
+</head>
+<body>
+	<!-- Task Flow Chart -->
+	<div id="taskflowchart" class="taskflowchart reverse resizable_task_properties resizable_connection_properties">
+	
+		<!-- WORKFLOW MENU -->
+		<div id="workflow_menu" class="workflow_menu">
+			<ul class="dropdown">
+				<li class="" title="File">
+					<a>File</a>
+					<ul>
+						<li class="" title="Save">
+							<a onClick="taskFlowChartObj.TaskFile.save();return false;">Save</a>
+						</li>
+						<li class="" title="Empty Diagram">
+							<a onClick="emptyDiagam();return false;">Empty Diagram</a>
+						</li>
+						<li class="" title="Flip Diagram">
+							<a onClick="taskFlowChartObj.ContextMenu.flipPanelsSide();return false;">Flip Diagram</a>
+						</li>
+					</ul>
+				</li>
+				<li class="" title="WorkFlow">
+					<a>WorkFlow</a>
+					<ul>
+						<li class="" title="Add new task d45ddc36">
+							<a onClick="taskFlowChartObj.ContextMenu.addTaskByType('d45ddc36');return false;">Add new task d45ddc36</a>
+						</li>
+						<li class="" title="Zoom In">
+							<a onClick="zoomInDiagram(this);return false;">Zoom In</a>
+						</li>
+						<li class="" title="Zoom Out">
+							<a onClick="zoomOutDiagram(this);return false;">Zoom Out</a>
+						</li>
+						<li class="zoom" title="Zoom">
+							<span>100%</span> 
+							<input type="range" min="0.5" max="1.5" step=".02" value="1" onInput="zoomDiagram(this);return false;" />
+						</li>
+						<li class="" title="Zoom Reset">
+							<a onClick="zoomResetDiagram(this);return false;">Zoom Reset</a>
+						</li>
+					</ul>
+				</li>
+				<li class="" title="Container">
+					<a>Container</a>
+					<ul>
+						<li class="" title="Decrease Containers IF Size">
+							<a onClick="taskFlowChartObj.Container.changeContainerSize('content_with_only_if', 400, 100);return false;">Decrease Containers IF Size</a>
+						</li>
+						<li class="" title="Increase Containers IF Size">
+							<a onClick="taskFlowChartObj.Container.changeContainerSize('content_with_only_if', 1300, 250);return false;">Increase Containers IF Size</a>
+						</li>
+						<li class="" title="Shrink containers">
+							<a onClick="taskFlowChartObj.Container.automaticDecreaseContainersSize();return false;">Shrink containers</a>
+						</li>
+						<li class="" title="Enlarge containers">
+							<a onClick="taskFlowChartObj.Container.automaticIncreaseContainersSize();return false;">Enlarge containers</a>
+						</li>
+					</ul>
+				</li>
+				<li class="" title="Other Examples">
+					<a>Other Examples</a>
+					<ul>
+						<li class="" title="Simple Workflow">
+							<a href="../../">Simple Workflow</a>
+						</li>
+						<li class="" title="Droppable Workflow">
+							<a href="../droppable_workflow">Droppable Workflow</a>
+						</li>
+						<li class="" title="DB Tables Diagram">
+							<a href="../tables_diagram">DB Tables Diagram</a>
+						</li>
+						<li class="" title="Multiple Workflows">
+							<a href="../multiple_workflows">Multiple Workflows</a>
+						</li>
+					</ul>
+				</li>
+			</ul>
+		</div>
+		
+		<!-- TASKS SIDE BAR -->
+		<div class="tasks_menu scroll">
+			<ul class="tasks_groups">
+				<li class="tasks_group tasks_group_others">
+					<div class="tasks_group_label">Logic</div>
+					<div class="tasks_group_tasks">
+						<div class="task task_menu task_d45ddc36 task_if" type="d45ddc36" tag="if" title="If">
+							<span>If</span>
+						</div>
+						<div class="task task_menu task_199eb725 task_switch" type="199eb725" tag="switch" title="Switch">
+							<span>Switch</span>
+						</div>
+					</div>
+					<div style="clear:left; float:none;"></div>
+				</li>
+				<li class="tasks_group tasks_group_others">
+					<div class="tasks_group_label">Others</div>
+					<div class="tasks_group_tasks">
+						<div class="empty">There are no tasks available in this group</div>
+					</div>
+					<div style="clear:left; float:none;"></div>
+				</li>
+			</ul>
+		</div>
+		
+		<!-- TASKS MENU HIDE -->
+		<div class="tasks_menu_hide">
+			<div class="button" onclick="taskFlowChartObj.ContextMenu.toggleTasksMenuPanel(this)"></div>
+		</div>
+		
+		<!-- TASKS FLOW - CANVAS -->
+		<div class="tasks_flow scroll">
+			<div class="task_container" id="content_with_only_if"><span>Only allow Tasks: if</span></div>
+			<div class="task_container" id="content_with_only_switch"><span>Only allow Tasks: switch</span></div>
+		</div>
+		
+		<!-- TASKS PROPERTIES -->
+		<div class="tasks_properties hidden">
+			
+			<!-- IF TASK PROPERTIES -->
+			<div class="task_properties task_properties_d45ddc36">
+				<div class="if_task_html">
+					<div class="conditions">
+						<label>Conditions:</label>
+						<input type="text" class="task_property_field" name="conditions" value="" />
+					</div>
+					<div class="task_property_exit" exit_id="true" exit_color="#51D87A" exit_label="True"></div>
+					<div class="task_property_exit" exit_id="false" exit_color="#FF4D4D" exit_label="False"></div>
+					<div class="comments">
+						<label>Comments:</label>
+						<textarea class="task_property_field" name="comments"></textarea>
+					</div>
+				</div>
+			</div>
+			
+			<!-- SWITCH TASK PROPERTIES -->
+			<div class="task_properties task_properties_199eb725">
+				<div class="switch_task_html">
+					<div class="object_var">
+						<label>Some input:</label>
+						<input type="text" class="task_property_field" name="object_var" value="" />
+					</div>
+					<div class="object_type">
+						<label>Some selection:</label>
+						<select class="task_property_field" name="object_type">
+							<option>a</option>
+							<option>b</option>
+							<option value="">empty</option>
+						</select>
+					</div>
+					<div class="cases">
+						<label>Add exit:</label>
+						<a class="icon add" onClick="SwitchTaskPropertyObj.addCase(this)">Add</a>
+						<ul></ul>
+					</div>
+					<div class="default_exit">
+						<label>Default Exit:</label>
+						<div class="task_property_field default_property_exit" property_name="default[exit]" value=""></div>
+						<div class="task_property_exit default_exit" exit_id="" exit_color="" exit_label="Default"></div>
+					</div>
+				</div>
+			</div>
+		</div>
+		
+		<!-- CONNECTION PROPERTIES -->
+		<div class="connections_properties hidden"></div>
+	</div>
+</body>
+</html>
+
+

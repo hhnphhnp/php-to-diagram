@@ -1,0 +1,538 @@
+/*
+ * Copyright (c) 2025 Bloxtor (http://bloxtor.com) and Joao Pinto (http://jplpinto.com)
+ * 
+ * Multi-licensed: BSD 3-Clause | Apache 2.0 | GNU LGPL v3 | HLNC License (http://bloxtor.com/LICENSE_HLNC.md)
+ * Choose one license that best fits your needs.
+ *
+ * Original JQuery Task flow Chart Repo: https://github.com/a19836/jquerytaskflowchart/
+ * Original Bloxtor Repo: https://github.com/a19836/bloxtor
+ *
+ * YOU ARE NOT AUTHORIZED TO MODIFY OR REMOVE ANY PART OF THIS NOTICE!
+ */
+
+@font-face {
+  font-family:"Poppins-Regular";
+  src:url('../lib/google-poppins/Poppins-Regular.ttf');
+}
+
+body {
+	font-family:"Poppins-Regular",-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Oxygen-Sans,Ubuntu,Cantarell,"Helvetica Neue",Helvetica,Arial,sans-serif;
+	font-size:10pt;
+}
+
+.hidden {display:none}
+
+.taskflowchart .workflow_menu .dropdown {margin:0; padding:0;}
+.taskflowchart .workflow_menu .dropdown li a {font-size:14px !important;}
+
+.taskflowchart .tasks_menu:not(.dragging_task_menu) {overflow-y:overlay;}
+.taskflowchart .tasks_menu .tasks_groups {margin:0;padding:0;}
+.taskflowchart .tasks_menu .tasks_groups .tasks_group {list-style:none;}
+.taskflowchart .tasks_menu .tasks_groups .tasks_group .tasks_group_label {padding:5px; background:#333; border-radius:3px;}
+.taskflowchart .tasks_menu .tasks_groups .tasks_group .tasks_group_label:hover:after {margin-top: -15px; right:20px;}
+.taskflowchart .tasks_menu .tasks_groups .tasks_group .tasks_group_tasks .empty {margin-top:10px; padding:10px; font-size:10px; text-align:center; color:#666;}
+
+.taskflowchart .tasks_flow .task_container span {position:absolute; top:calc(50% - 20px); left:calc(50% - 115px); font-size:25px; color:#333; opacity:.2; white-space:nowrap;}
+.taskflowchart .tasks_flow #content_with_only_if {width:100%; height:50%; background-color:#89898982;}
+.taskflowchart .tasks_flow #content_with_only_switch {width:100%; height:50%; background-color:#00ffff30;}
+
+.taskflowchart .tasks_flow .task.logic_task .short_actions {right:-25px;}
+.taskflowchart .tasks_flow .task.task_if .short_actions {right:-35px;}
+
+.task_context_menu li a, .task_context_menu li a:hover {
+    background-color:inherit;
+}
+
+.selected_task_properties .icon {
+	width: 20px;
+	display: inline-block;
+	color:transparent;
+}
+.selected_task_properties .icon.add{
+	background:url("../img/add_icon.gif") no-repeat;
+}
+.selected_task_properties .icon.remove{
+	background:url("../img/delete_icon.gif") no-repeat;
+}
+.taskflowchart:not(.fixed_properties):not(.fixed_side_properties) .popup_overlay{
+	height:auto !important;
+}
+.taskflowchart.fixed_side_properties .selected_task_properties > .content {
+	padding:5px 5px 5px 7px;
+}
+.selected_task_properties > .content > div{
+	margin:0 auto;
+}
+.taskflowchart.fixed_side_properties .selected_task_properties > .content > div{
+	font-size:9px;
+	margin:0;
+}
+.selected_task_properties div{
+	float:none;
+	clear:left;
+}
+.selected_task_properties label, .selected_task_properties input, .selected_task_properties textarea, .selected_task_properties select{
+	display:inline-block;
+}
+.selected_task_properties > .properties_task_id:before, .selected_connection_properties > .properties_connection_id:before{
+	display:none;
+}
+.selected_task_properties > .properties_task_id:after, .selected_connection_properties > .properties_connection_id:after{
+	display:none;
+}
+.selected_task_properties > .properties_task_id input, .selected_connection_properties > .properties_connection_id input{
+	width:100%;
+	height:20px;
+	text-align:left;
+	border:1px solid #ccc;
+	border:0;
+	background:transparent;
+	background-color:#FFF;
+	font-size:12px;
+	font-style:italic;
+	box-sizing:border-box;
+}
+.selected_task_properties .clear{
+	float:none;
+	clear:left;
+}
+
+.selected_task_properties .comments{
+	width:100%;
+	min-width:390px;
+	min-height:40px;
+	margin:15px auto 0;
+	padding:10px 5px 5px 5px;
+	border-top:1px solid #000;
+	box-sizing: border-box;
+}
+.taskflowchart.fixed_side_properties .selected_task_properties .comments{
+	width:100%;
+	min-width:auto;
+	box-sizing:border-box;
+}
+.selected_task_properties .comments label{
+	width:100%;
+	margin-bottom:5px;
+	display:block;
+	float:none;
+}
+.selected_task_properties .comments textarea{
+	width:100%;
+	max-width:100%;
+	height:60px;
+	float:none;
+	box-sizing:border-box;
+}
+
+.taskflowchartmenu .task, .taskflowchart > .tasks_menu .task{
+	width:40px;
+	margin:15px 22px 30px;
+	padding:0;
+	overflow:visible;
+	background-size:contain;
+	box-sizing:border-box;
+	opacity:.5;
+}
+.taskflowchartmenu .task:hover, .taskflowchart > .tasks_menu .task:hover{
+	opacity:.3;
+}
+.taskflowchartmenu .task span{
+	width:70px;
+	max-height:26px;
+	line-height:13px;
+	margin-left:-15px;
+	margin-right:-15px;
+	display:block;
+	position:absolute;
+	left:0;
+	top:40px;
+	color:#83889E;
+	font-size:10px;
+	font-weight:normal;
+	text-align:center;
+	overflow:hidden;
+	text-overflow:ellipsis;
+}
+.taskflowchartdiagram .task.logic_task{
+	width:70px !important;
+	height:auto !important;
+	min-height:50px !important;
+	padding:0 !important;
+	box-sizing:border-box;
+	border:0 !important;
+	box-shadow:none !important;
+}
+.taskflowchartdiagram .task.logic_task:hover{
+	opacity:1 !important;
+	z-index:9999;
+}
+.taskflowchartdiagram .task.logic_task:before{
+	width:180px;
+	left:-50% !important;
+	left:calc(-50% - 5px) !important;
+	right:auto !important;
+	bottom:-15px !important;
+	border-radius:5px;
+	border-color:#DFE1ED !important;
+	box-shadow:3px 3px 4px rgba(0, 0, 0, 0.05);
+}
+.taskflowchartdiagram .task.logic_task.is_start_task:not(:hover):not(.dragActive):before{
+	display:block;
+}
+.taskflowchartdiagram .task.logic_task:hover:after{
+	background:none !important;
+	left:-50% !important;
+	left:calc(-50% - 5px) !important;
+	bottom:-36px !important;
+	display:none !important;
+}
+.taskflowchartdiagram .task.logic_task.is_start_task .start_task_overlay{
+	display:none;
+}
+.taskflowchartdiagram .task.logic_task .task_info{
+	width:182px;
+	padding-left:10px;
+	left:-50%;
+	left:calc(-50% - 5px);
+	background:#426efa;
+	color:#fff;
+	box-sizing:border-box;
+	border-top-left-radius:5px;
+	border-top-right-radius:5px;
+}
+.taskflowchartdiagram .task.logic_task.is_start_task:not(:hover):not(.dragActive) .task_info{
+	display:block;
+	background:#83889E;
+}
+.taskflowchartdiagram .task.logic_task.is_start_task:not(:hover):not(.dragActive) .task_info:before{
+	content:"Start Task";
+	line-height:15px;
+	font-size:10px;
+}
+.taskflowchart .task.logic_task .task_info .task_info_tag, .taskflowchart .task.logic_task .task_info .task_info_label{
+	line-height:15px;
+	font-size:10px;
+}
+.taskflowchart .task.logic_task.is_start_task:not(:hover):not(.dragActive) .task_info .task_info_tag, .taskflowchart .task.logic_task.is_start_task:not(:hover):not(.dragActive) .task_info .task_info_label{
+	display:none;
+}
+.taskflowchartdiagram .task.logic_task .info{
+	width:180px;
+	min-height:20px;
+	line-height:15px;
+	margin-top:10px;
+	margin-left:-50%;
+	margin-left:calc(-50% - 5px);
+	padding-left:5px;
+	padding-right:5px;
+	box-sizing:border-box;
+	font-size:11px;
+}
+.taskflowchartdiagram .task.logic_task:hover:not(.ui-draggable-dragging):not(.dragActive) > .info{
+	width:auto;
+	min-width:180px;
+	text-overflow:unset;
+	overflow:visible;
+}
+.taskflowchartdiagram .task.logic_task .info span{
+	color:#426efa;
+	word-break:break-all;
+}
+.taskflowchartdiagram .task.logic_task:hover:not(.ui-draggable-dragging):not(.dragActive) > .info span{
+	color:#585B69;
+}
+.taskflowchartdiagram .task.logic_task:hover:not(.is_start_task):not(.ui-draggable-dragging):not(.dragActive) > .info span{
+	background:#fff;
+}
+.taskflowchartdiagram .task.logic_task .short_actions{
+	top:-20px;
+	right:-45px;
+	color:#fff;
+}
+.taskflowchartdiagram .task.logic_task .eps{
+	width:40px;
+	height:35px;
+	min-height:20px;
+	margin:0 auto;
+	position:relative;
+	background-repeat:no-repeat;
+	background-position:center bottom;
+	background-size:100% 100%;
+	float:none;
+}
+.taskflowchartdiagram .task.logic_task .eps:hover:after{
+	width:175px;
+	content:"Drag the icon to link to another box";
+	position:absolute;
+	bottom:-15px;
+	left:-50%;
+	left:calc(-50% - 5px);
+	font-size:80%;
+	color:#999;
+	text-align:center;
+	display:none;
+}
+.taskflowchartdiagram .task.logic_task.dragActive .eps{
+	box-shadow:0px 0px 20px 5px #ccc !important;
+}
+.taskflowchartdiagram .task.logic_task.dragHover .eps{
+	box-shadow:0px 0px 20px 5px #aaa !important;
+}
+.taskflowchartdiagram .task.logic_task .ep{
+	width:100%;
+	height:100%;
+	margin:0;
+	border:0;
+	border-radius:0;
+}
+.taskflowchartdiagram .task.logic_task .ep span{
+	min-width:190px;
+	max-width:300px;
+	padding:3px 5px;
+	position:absolute;
+	top:calc(100% + 5px);
+	left:-75px;
+	box-sizing:border-box;
+	border:1px solid #fff;
+	border-radius:5px;
+	background:#426efa;
+	color:#fff;
+	font-size:9px;
+	font-family:verdana,courier,arial;
+	font-family:var(--main-font-family);
+	white-space:nowrap;
+	pointer-events:none;
+	z-index:1;
+}
+.taskflowchartdiagram .task.logic_task:not(.show_code) .ep span{
+	display:none;
+}
+.taskflowchartdiagram .task.logic_task.show_code:hover:after{
+	display:none;
+}
+ .taskflowchartmenu .task.task_if{
+	background-image:url("../img/if.svg");
+}
+.taskflowchartdiagram .task.task_if:before{
+	left:calc(-50% + 5px) !important;
+}
+.taskflowchartdiagram .task.task_if:hover:after{
+	left:calc(-50% + 5px) !important;
+}
+.taskflowchartdiagram .task.task_if .task_info{
+	left:calc(-50% + 5px);
+}
+.taskflowchartdiagram .task.task_if .eps{
+	background-image:url("../img/if_hover.svg");
+}
+.taskflowchartdiagram .task.task_if .eps:hover:after{
+	content:"Drag the circles to link to another box";
+}
+.taskflowchartdiagram .task.task_if .ep{
+	width:30px;
+	height:auto;
+	position:absolute;
+	top:0;
+	bottom:0;
+	display:inline-block;
+	border:0;
+	border-color:transparent !important;
+	background-color:transparent !important;
+}
+.taskflowchartdiagram .task.task_if .ep:nth-child(1){
+	left:-28px;
+	right:auto;
+	text-align:left;
+}
+.taskflowchartdiagram .task.task_if .ep:nth-child(2){
+	left:auto;
+	right:-28px;
+	text-align:right;
+}
+.taskflowchartdiagram .task.task_if .ep span{
+	width:30px;
+	min-width:auto;
+	max-width:none;
+	height:30px;
+	line-height:30px;
+	margin:2px 0 0;
+	padding:0;
+	display:inline-block !important;
+	position:relative;
+	top:0;
+	left:0;
+	border:0;
+	border-radius:100%;
+	color:#fff !important;
+	font-weight:bold;
+	font-size:90%;
+	white-space:nowrap;
+	overflow:hidden;
+	box-sizing:border-box;
+	text-align:center;
+}
+.taskflowchartdiagram .task.task_if .ep:nth-child(1) span{
+	background:#51D87A;
+}
+.taskflowchartdiagram .task.task_if .ep:nth-child(2) span{
+	background:#FF4D4D;
+}
+.if_task_html{
+	min-width:665px;
+}
+.taskflowchart.fixed_side_properties .selected_task_properties .if_task_html{
+	min-width:auto;
+}
+ .taskflowchartmenu .task.task_switch{
+	background-image:url("../img/switch.svg");
+}
+.taskflowchartdiagram .task.task_switch{
+	height:auto !important;
+}
+.taskflowchartdiagram .task.task_switch:not(.is_start_task):not(:hover):before{
+	content:" ";
+	position:absolute;
+	top:-5px !important;
+	left:-5px !important;
+	right:-5px !important;
+	bottom:-5px !important;
+	border:1px solid #426efa;
+	border-radius:5px;
+}
+.taskflowchartdiagram .task.task_switch:hover:before{
+	bottom:-5px !important;
+}
+.taskflowchartdiagram .task.task_switch:hover:after{
+	bottom:-25px !important;
+}
+.taskflowchartdiagram .task.task_switch .eps{
+	width:100%;
+	height:auto;
+	min-height:50px;
+	margin:0 auto;
+	padding:50px 0 0;
+	top:0 !important;
+	background-image:url("../img/switch.svg");
+	background-size:65px;
+	background-position:center 0;
+	float:none;
+}
+.taskflowchartdiagram .task.task_switch:hover .eps{
+	width:175px;
+	margin-left:-52px;
+}
+.taskflowchartdiagram .task.task_switch .eps:hover:after{
+	content:"Drag the rectangles to link to another box";
+	left:0;
+	bottom:-5px;
+}
+.taskflowchartdiagram .task.task_switch .ep{
+	height:20px;
+	border-radius:3px;
+	margin:0 5px 5px;
+	box-sizing:border-box;
+	width:auto;
+	display:block;
+	float:none;
+	clear:both;
+}
+.taskflowchartdiagram .task.task_switch .ep span{
+	width:100%;
+	min-width:auto;
+	max-width:none;
+	display:block !important;
+	position:relative;
+	top:auto;
+	left:0;
+	color:#000;
+	background:transparent;
+	white-space:nowrap;
+	overflow:hidden;
+	text-overflow:ellipsis;
+	display:inline-block;
+	box-sizing:border-box;
+	border:0;
+	line-height:normal;
+}
+.switch_task_html{
+	width:290px;
+}
+.taskflowchart.fixed_side_properties .selected_task_properties .switch_task_html{
+	width:100%;
+}
+.switch_task_html .object_var, .switch_task_html .object_type{
+	width:100%;
+	min-height:20px;
+}
+.switch_task_html .object_var{
+}
+.taskflowchart.fixed_side_properties .selected_task_properties .switch_task_html .object_var{
+	margin-top:0;
+}
+.switch_task_html .object_type{
+	margin-top:5px;
+}
+.switch_task_html .cases{
+	width:100%;
+	margin:10px 0px 15px 0px;
+}
+.switch_task_html .default_exit{
+	width:100%;
+	height:20px;
+}
+.switch_task_html .object_var label, .switch_task_html .object_type label{
+	width:120px;
+}
+.taskflowchart.fixed_side_properties .selected_task_properties .switch_task_html .object_var label, .taskflowchart.fixed_side_properties .selected_task_properties .switch_task_html .object_type label, .taskflowchart.fixed_side_properties .selected_task_properties .switch_task_html .default_exit label{
+	width:60px;
+}
+.switch_task_html .default_exit label{
+	width:90px;
+}
+.switch_task_html .cases label{
+	width:60px;
+}
+.switch_task_html .object_var input{
+	width:150px;
+}
+.taskflowchart.fixed_side_properties .selected_task_properties .switch_task_html .object_var input{
+	width:calc(100% - 75px);
+}
+.switch_task_html .cases input{
+	width:150px;
+}
+.taskflowchart.fixed_side_properties .selected_task_properties .switch_task_html .cases input{
+	width:calc(100% - 65px);
+}
+.switch_task_html .cases ul{
+	float:none;
+	clear:left;
+	margin:0;
+	padding:0 0 0 10px;
+}
+.switch_task_html .cases ul li{
+	width:100%;
+	float:none;
+	clear:left;
+	margin-top:5px;
+	list-style:none;
+}
+.switch_task_html .cases .case_property_exit{
+	width:20px;
+	height:20px;
+	margin-left:10px;
+	margin-right:5px;
+	display:inline-block;
+	vertical-align:middle;
+}
+.switch_task_html .default_property_exit{
+	width:20px;
+	height:20px;
+	display:inline-block;
+	vertical-align:middle;
+}
+.switch_task_html .task_property_exit{
+	display:none;
+}
+

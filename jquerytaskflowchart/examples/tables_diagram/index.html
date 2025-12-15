@@ -1,0 +1,333 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+	<link rel="icon" href="data:;base64,=" />
+	
+	<!-- Add Fontawsome Icons CSS -->
+	<link rel="stylesheet" href="lib/fontawesome/css/all.min.css">
+	
+	<!-- Add jquery lib -->
+	<script language="javascript" type="text/javascript" src="../../lib/jquery/js/jquery-1.8.1.min.js"></script>
+	<script language="javascript" type="text/javascript" src="../../lib/jquery/js/jquery.center.js"></script>
+	
+	<!-- Add Jquery UI JS and CSS files -->
+	<link rel="stylesheet" href="../../lib/jqueryui/css/jquery-ui-1.11.4.css" type="text/css" />
+	<script language="javascript" type="text/javascript" src="../../lib/jqueryui/js/jquery-ui-1.11.4.min.js"></script>
+	
+	<!-- Add Jquery Tap-Hold Event JS file -->
+	<script language="javascript" type="text/javascript" src="../../lib/jquerytaphold/taphold.js"></script>
+
+	<!-- Jquery Touch Punch to work on mobile devices with touch -->
+	<script type="text/javascript" src="../../lib/jqueryuitouchpunch/jquery.ui.touch-punch.min.js"></script>
+	
+	<!-- Add Fancy LighBox lib -->
+	<link rel="stylesheet" href="../../lib/jquerymyfancylightbox/css/style.css" type="text/css" charset="utf-8" media="screen, projection" />
+	<script language="javascript" type="text/javascript" src="../../lib/jquerymyfancylightbox/js/jquery.myfancybox.js"></script>
+
+	<!-- Add LeaderLine main JS and CSS files -->
+	<link rel="stylesheet" href="../../lib/leaderline/leader-line.css" type="text/css" charset="utf-8" />
+	<script language="javascript" type="text/javascript" src="../../lib/leaderline/leader-line.js"></script>
+	<script language="javascript" type="text/javascript" src="../../lib/leaderline/LeaderLineFlowHandler.js"></script>
+
+	<!-- Add TaskFlowChart main JS and CSS files -->
+	<link rel="stylesheet" href="../../css/style.css" type="text/css" charset="utf-8" />
+	<link rel="stylesheet" href="../../css/print.css" type="text/css" charset="utf-8" media="print" />
+	<script type="text/javascript" src="../../js/ExternalLibHandler.js"></script>
+	<script type="text/javascript" src="../../js/TaskFlowChart.js"></script>
+
+	<!-- Add ContextMenu main JS and CSS files -->
+	<link rel="stylesheet" href="../../lib/jquerymycontextmenu/css/style.css" type="text/css" charset="utf-8" />
+	<script language="javascript" type="text/javascript" src="../../lib/jquerymycontextmenu/js/jquery.mycontextmenu.js"></script>
+
+	<!-- Parse_Str -->
+	<script type="text/javascript" src="../../lib/phpjs/functions/strings/parse_str.js"></script>
+
+	<!-- Add DropDowns main JS and CSS files -->
+	<link rel="stylesheet" href="../../lib/jquerysimpledropdowns/css/style.css" type="text/css" charset="utf-8" />
+	<!--[if lte IE 7]>
+		     <link rel="stylesheet" href="../../lib/jquerysimpledropdowns/css/ie.css" type="text/css" charset="utf-8" />
+	<![endif]-->
+	<script language="javascript" type="text/javascript" src="../../lib/jquerysimpledropdowns/js/jquery.dropdownPlain.js"></script>
+
+	<!-- Add TASKS JS and CSS files -->
+	<link rel="stylesheet" type="text/css" href="css/diagram.css" />
+	<script language="javascript" type="text/javascript" src="js/diagram.js"></script>
+	
+	<link rel="stylesheet" type="text/css" href="css/test_tasks.css" />
+	<script language="javascript" type="text/javascript" src="js/test_tasks.js"></script>
+	
+	<script language="javascript" type="text/javascript" src="../../js/menu.js"></script>
+	
+	<script>
+		;(function() {
+			taskFlowChartObj.setTaskFlowChartObjOption("is_droppable_connection", true);
+			taskFlowChartObj.setTaskFlowChartObjOption("add_default_start_task", true);
+			taskFlowChartObj.setTaskFlowChartObjOption("resizable_task_properties", true);
+			taskFlowChartObj.setTaskFlowChartObjOption("resizable_connection_properties", true);
+			
+			taskFlowChartObj.TaskFile.get_tasks_file_url = "server/get_tasks.php";
+			taskFlowChartObj.TaskFile.set_tasks_file_url = "server/set_tasks.php";
+			taskFlowChartObj.TaskFile.on_success_read = updateTasksAfterFileRead;
+			taskFlowChartObj.TaskFile.on_success_update = updateTasksAfterFileRead;
+			
+			taskFlowChartObj.TaskFlow.default_connection_line_width = 2;
+			taskFlowChartObj.TaskFlow.default_connection_from_target = true;
+			taskFlowChartObj.TaskFlow.default_similar_connections_gap = 100;
+			
+			taskFlowChartObj.TaskFlow.default_connection_connector = "Flowchart";
+			taskFlowChartObj.TaskFlow.default_connection_overlay = "One To One";
+			taskFlowChartObj.TaskFlow.default_connection_hover_color = null;
+			//taskFlowChartObj.TaskFlow.available_connection_connectors_type = ["Flowchart"];
+			taskFlowChartObj.TaskFlow.available_connection_overlays_type = ["One To One", "Many To One", "One To Many"]; //Do not add "Many To Many" bc it doesn't make sense for the db relational diagram.
+			taskFlowChartObj.TaskFlow.main_tasks_flow_obj_id = "taskflowchart > .tasks_flow";
+			taskFlowChartObj.TaskFlow.main_tasks_properties_obj_id = "taskflowchart > .tasks_properties";
+			taskFlowChartObj.TaskFlow.main_connections_properties_obj_id = "taskflowchart > .connections_properties";
+			taskFlowChartObj.ContextMenu.main_tasks_menu_obj_id = "taskflowchart > .tasks_menu";
+			taskFlowChartObj.ContextMenu.main_tasks_menu_hide_obj_id = "taskflowchart > .tasks_menu_hide";
+			taskFlowChartObj.ContextMenu.main_workflow_menu_obj_id = "taskflowchart > .workflow_menu";
+			
+			taskFlowChartObj.Property.tasks_settings = {
+				"02466a6d": {
+					"task_menu": {
+						"show_start_task_menu": false
+					},
+					"connection_menu": {
+						"show_overlay_types_menu": false
+					},
+					"callback": {
+						"on_load_task_properties": DBTableTaskPropertyObj.onLoadTaskProperties,
+						"on_submit_task_properties": DBTableTaskPropertyObj.onSubmitTaskProperties,
+						"on_load_connection_properties": DBTableTaskPropertyObj.onLoadConnectionProperties,
+						"on_submit_connection_properties": DBTableTaskPropertyObj.onSubmitConnectionProperties,
+						"on_complete_connection_properties": DBTableTaskPropertyObj.onCompleteConnectionProperties,
+						"on_cancel_connection_properties": DBTableTaskPropertyObj.onCancelConnectionProperties,
+						"on_check_task_label": DBTableTaskPropertyObj.onCheckLabel,
+						"on_cancel_task_label": DBTableTaskPropertyObj.onCancelLabel,
+						"on_complete_task_label": DBTableTaskPropertyObj.onCompleteLabel,
+						"on_check_connection_label": isConnectionLabelValid,
+						"on_success_task_cloning": onTaskCloning,
+						"on_success_task_creation": DBTableTaskPropertyObj.onTaskCreation,
+						"on_success_task_deletion": DBTableTaskPropertyObj.onTaskDeletion,
+						"on_success_connection_drop": DBTableTaskPropertyObj.onTableConnectionDrop,
+						"on_success_connection_deletion": DBTableTaskPropertyObj.onSuccessConnectionDeletion,
+						"on_click_task": DBTableTaskPropertyObj.onClickTask,
+						"on_click_connection": showConnectionPropertiesIfExists
+					},
+					"center_inner_elements": false
+				}
+			};
+			
+			DBTableTaskPropertyObj.column_types = {"bit":"Bit","serial":"Serial","tinyint":"Tiny Int","smallint":"Small Int","int":"Int","bigint":"Big Int"};
+			DBTableTaskPropertyObj.column_simple_types = {"simple_auto_primary_key":{"type":"bigint","label":"Automatic Primary Key","length":20,"null":false,"primary_key":true,"auto_increment":true,"unsigned":true,"name":"id"},"simple_manual_primary_key":{"type":"varchar","label":"Manual Primary Key","length":255,"null":false,"primary_key":true,"name":"id"}};
+			DBTableTaskPropertyObj.column_numeric_types = ["bit","serial","tinyint","smallint","int","bigint","mediumint"];
+			DBTableTaskPropertyObj.column_mandatory_length_types = {"varchar":255,"varbinary":255};
+			DBTableTaskPropertyObj.column_types_ignored_props = {"bit":["unsigned","auto_increment","charset","collation"],"serial":["length","null","unique","unsigned","auto_increment"],"tinyint":["charset","collation"]};
+			DBTableTaskPropertyObj.column_types_hidden_props = [];
+			DBTableTaskPropertyObj.table_charsets = {"armscii8":"ARMSCII-8 Armenian","ascii":"US ASCII"};
+			DBTableTaskPropertyObj.table_collations = {"armscii8_bin":"Armscii8 Bin","armscii8_general_ci":"Armscii8 General Ci","ascii_bin":"Ascii Bin","ascii_general_ci":"Ascii General Ci","big5_bin":"Big5 Bin"};
+			DBTableTaskPropertyObj.table_storage_engines = {"ndbcluster":"Ndbcluster - Clustered, fault-tolerant tables","MEMORY":"MEMORY - Hash based, stored in memory, useful for temporary tables","InnoDB":"InnoDB - Supports transactions, row-level locking, and foreign keys"};
+			DBTableTaskPropertyObj.column_charsets = null;
+			DBTableTaskPropertyObj.column_collations = {"armscii8_bin":"Armscii8 Bin","armscii8_general_ci":"Armscii8 General Ci","ascii_bin":"Ascii Bin","ascii_general_ci":"Ascii General Ci"};
+			DBTableTaskPropertyObj.allow_column_sorting = true;
+			DBTableTaskPropertyObj.allow_modify_table_encoding = true;
+			DBTableTaskPropertyObj.allow_modify_table_storage_engine = true;
+			DBTableTaskPropertyObj.show_properties_on_connection_drop = true;
+			
+			DBTableTaskPropertyObj.on_load_task_properties_callback = onLoadDBTableTaskProperties;
+			DBTableTaskPropertyObj.on_submit_task_properties_callback = onSubmitDBTableTaskProperties;
+			DBTableTaskPropertyObj.on_task_creation_callback = onDBTableTaskCreation;
+			DBTableTaskPropertyObj.on_task_deletion_callback = onDBTableTaskDeletion;
+			DBTableTaskPropertyObj.on_update_simple_attributes_html_with_table_attributes_callback = onUpdateSimpleAttributesHtmlWithTableAttributes;
+			DBTableTaskPropertyObj.on_update_table_attributes_html_with_simple_attributes_callback = onUpdateTableAttributesHtmlWithSimpleAttributes;
+			DBTableTaskPropertyObj.on_add_task_properties_attribute_callback = onAddTaskPropertiesAttribute;
+			DBTableTaskPropertyObj.on_before_remove_task_properties_attribute_callback = onBeforeRemoveTaskPropertiesAttribute;
+			DBTableTaskPropertyObj.on_before_sort_task_properties_attributes = onBeforeSortTaskPropertiesAttributes;
+			
+			taskFlowChartObj.init();
+		})();
+	</script>
+</head>
+<body>
+	<!-- Task Flow Chart -->
+	<div id="taskflowchart" class="taskflowchart fixed_properties resizable_task_properties resizable_connection_properties">
+	
+		<!-- WORKFLOW MENU -->
+		<div id="workflow_menu" class="workflow_menu">
+			<ul class="dropdown">
+				<li class="" title="File">
+					<a>File</a>
+					<ul>
+						<li class="" title="Save">
+							<a onClick="taskFlowChartObj.TaskFile.save();return false;">Save</a>
+						</li>
+						<li class="" title="Empty Diagram">
+							<a onClick="emptyDiagam();return false;">Empty Diagram</a>
+						</li>
+					</ul>
+				</li>
+				<li class="" title="WorkFlow">
+					<a>WorkFlow</a>
+					<ul>
+						<li class="" title="Add new task 02466a6d">
+							<a onClick="addNewTable();return false;">Add new table</a>
+						</li>
+						<li class="" title="Zoom In">
+							<a onClick="zoomInDiagram(this);return false;">Zoom In</a>
+						</li>
+						<li class="" title="Zoom Out">
+							<a onClick="zoomOutDiagram(this);return false;">Zoom Out</a>
+						</li>
+						<li class="zoom" title="Zoom">
+							<span>100%</span> 
+							<input type="range" min="0.5" max="1.5" step=".02" value="1" onInput="zoomDiagram(this);return false;" />
+						</li>
+						<li class="" title="Zoom Reset">
+							<a onClick="zoomResetDiagram(this);return false;">Zoom Reset</a>
+						</li>
+					</ul>
+				</li>
+				<li class="" title="Other Examples">
+					<a>Other Examples</a>
+					<ul>
+						<li class="" title="Simple Workflow">
+							<a href="../../">Simple Workflow</a>
+						</li>
+						<li class="" title="Logic Workflow">
+							<a href="../logic_workflow">Logic Workflow</a>
+						</li>
+						<li class="" title="Droppable Workflow">
+							<a href="../droppable_workflow">Droppable Workflow</a>
+						</li>
+						<li class="" title="Multiple Workflows">
+							<a href="../multiple_workflows">Multiple Workflows</a>
+						</li>
+					</ul>
+				</li>
+			</ul>
+		</div>
+		
+		<div class="tasks_menu scroll">
+			<div class="task task_menu task_02466a6d task_table" type="02466a6d" tag="table" title="TABLE"><span>TABLE</span></div>
+		</div>
+		
+		<div class="tasks_menu_hide">
+			<div class="button" onclick="taskFlowChartObj.ContextMenu.toggleTasksMenuPanel(this)"></div>
+		</div>
+		
+		<!-- TASKS FLOW - CANVAS -->
+		<div class="tasks_flow scroll"></div>
+		
+		<div class="tasks_properties hidden">
+			<div class="task_properties task_properties_02466a6d">
+				<div class="db_table_task_html simple_ui_shown attributes_table_shown">
+					<div class="table_name">
+						<label>Table Name:</label>
+						<input type="text" name="table_name" value="" />
+					</div>
+					<ul>
+						<li>
+							<a href="#simple_ui" onClick="DBTableTaskPropertyObj.updateSimpleAttributesHtmlWithTableAttributes(this)">Simple UI</a>
+						</li>
+						<li>
+							<a href="#advanced_ui" onClick="DBTableTaskPropertyObj.updateTableAttributesHtmlWithSimpleAttributes(this)">Advanced UI</a>
+						</li>
+					</ul>
+					<div id="simple_ui">
+						<div class="simple_attributes">
+							<label>Table Attributes: 
+								<a class="icon add" onClick="DBTableTaskPropertyObj.addSimpleAttribute(this)" title="Add new Attribute">ADD</a>
+							</label>
+							<ul>
+								<li class="no_simple_attributes">There are no attributes defined!</li>
+							</ul>
+						</div>
+					</div>
+					<div id="advanced_ui">
+						<div class="table_charset">
+							<label>Table Charset:</label>
+							<select class="task_property_field" name="table_charset"></select>
+						</div>
+						<div class="table_collation">
+							<label>Table Collation:</label>
+							<select class="task_property_field" name="table_collation"></select>
+						</div>
+						<div class="table_storage_engine">
+							<label>Table Storage Engine:</label>
+							<select class="task_property_field" name="table_storage_engine"></select>
+						</div>
+						<div class="attributes">
+							<label>Table Attributes: 
+								<a class="icon add" onClick="DBTableTaskPropertyObj.addTableAttribute(this)" title="Add new attribute">ADD</a>
+								<a class="icon switch" onClick="DBTableTaskPropertyObj.toggleTableAndListView(this)" title="toggle from table to list view and vice-versa">CONVERT</a>
+							</label>
+						</div>
+						<div class="responsive_table">
+							<table>
+								<thead>
+									<tr>
+										<th class="table_attr_primary_key table_header">PK</th>
+										<th class="table_attr_name table_header">Name</th>
+										<th class="table_attr_type table_header">Type</th>
+										<th class="table_attr_length table_header">Length</th>
+										<th class="table_attr_null table_header">Null</th>
+										<th class="table_attr_unsigned table_header">Unsigned</th>
+										<th class="table_attr_unique table_header">Unique</th>
+										<th class="table_attr_auto_increment table_header">Auto Increment</th>
+										<th colspan="2" class="table_attr_default table_header">Default</th>
+										<th class="table_attr_extra table_header">Extra</th>
+										<th class="table_attr_charset table_header">Charset</th>
+										<th class="table_attr_collation table_header">Collation</th>
+										<th class="table_attr_comment table_header">Comments</th>
+										<th class="table_attr_icons">
+											<a class="icon add" onClick="DBTableTaskPropertyObj.addTableAttribute(this)">ADD</a>
+										</th>
+									</tr>
+								</thead>
+								<tbody class="table_attrs"></tbody>
+							</table>
+						</div>
+						<div class="list_attributes">
+							<ul class="list_attrs"></ul>
+						</div>
+					</div>
+					<div class="task_property_exit" exit_id="layer_exit" exit_color="#31498f" exit_type="Flowchart" exit_overlay="No Arrows"></div>
+				</div>
+			</div>
+		</div>
+		<div class="connections_properties hidden">
+			<div class="connection_properties connection_properties_02466a6d">
+				<div class="db_table_connection_html">
+					<div class="relationship_props">
+						<div class="source"></div>
+						<div class="relationship">
+							<select></select>
+						</div>
+						<div class="target"></div>
+					</div>
+					<div class="buttons">
+						<label>Foreign Keys:</label>
+					</div>
+					<table>
+						<thead>
+							<tr>
+								<th class="source_column table_header"></th>
+								<th class="target_column table_header"></th>
+								<th class="table_attr_icons">
+									<a class="icon add" onClick="DBTableTaskPropertyObj.addTableForeignKey()">ADD</a>
+								</th>
+							</tr>
+						</thead>
+						<tbody class="table_attrs"></tbody>
+					</table>
+					<div class="delete_connection_button">
+						<button onClick="removeTableConnectionFromConnectionProperties(this)">Delete Connection Between Tables</button>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</body>
+</html>
+
+

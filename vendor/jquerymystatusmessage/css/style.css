@@ -1,0 +1,63 @@
+/*
+ * Copyright (c) 2025 Bloxtor (http://bloxtor.com) and Joao Pinto (http://jplpinto.com)
+ * 
+ * Multi-licensed: BSD 3-Clause | Apache 2.0 | GNU LGPL v3 | HLNC License (http://bloxtor.com/LICENSE_HLNC.md)
+ * Choose one license that best fits your needs.
+ *
+ * Original JQuery My Status Message Repo: https://github.com/a19836/jquerymystatusmessage/
+ * Original Bloxtor Repo: https://github.com/a19836/bloxtor
+ *
+ * YOU ARE NOT AUTHORIZED TO MODIFY OR REMOVE ANY PART OF THIS NOTICE!
+ */
+
+.status_message {
+	position:fixed;
+	bottom:0px;
+	left:0px;
+	width:100%;
+	padding-top:5px;
+	color:#000;
+	text-align:center;
+	z-index:9999999;
+	/*opacity:0.6;*/
+}
+.status_message:empty {
+	padding-top:0;
+}
+.status_message .status_message_info, .status_message .status_message_error {
+	min-height:20px;
+	max-height:250px;
+	line-height:20px;
+	float:none;
+	clear:right;
+	overflow-y:auto;
+	overflow-wrap:break-word;
+}
+.status_message .status_message_info span.close_message, 
+	.status_message .status_message_error span.close_message {
+	display:block;
+	width:16px;
+	height:16px;
+	cursor:pointer;
+	
+	/* Hide Text */
+	text-indent:-9999px;
+	white-space:nowrap;
+	overflow:hidden;
+	
+	float:right;
+	margin-top:2px;
+	margin-left:5px;
+	margin-right:5px;
+	background:url("../img/delete_icon.png") no-repeat scroll 0 0px;
+}
+.status_message .status_message_info {
+	background-color:#CCFF99;
+	background-color:rgba(204, 255, 153, 0.6);
+	color:#000;
+}
+.status_message .status_message_error {
+	background-color:#FF0000;
+	background-color:rgba(255, 0, 0, 0.6);
+	color:#000;
+}

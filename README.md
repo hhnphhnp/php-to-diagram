@@ -1,12 +1,12 @@
-# PHP to Workflow Diagram
+# PHP to Diagram
 
 > Original Repos:   
-> - PHP to Workflow Diagram: https://github.com/a19836/php-to-workflow-diagram/   
+> - PHP to Diagram: https://github.com/a19836/php-to-workflow-diagram/   
 > - Bloxtor: https://github.com/a19836/bloxtor/
 
 ## Overview
 
-**PHP to Workflow Diagram** is a library that enables **bidirectional conversion between PHP code and visual workflow diagrams**.  
+**PHP to Diagram** is a library that enables **bidirectional conversion between PHP code and visual workflow diagrams**.  
 It transforms PHP logic into **low-code, visual diagrams**, and converts those diagrams back into fully functional PHP code.
 
 This approach allows **non-programmers** to design and maintain application logic visually, while still producing clean, structured, and executable PHP code. At the same time, developers benefit from a **controlled, standardized, and predictable architecture**, reducing errors and improving maintainability.

